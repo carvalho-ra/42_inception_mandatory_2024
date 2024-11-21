@@ -53,12 +53,12 @@ RUN apk update && apk upgrade && apk add --no-cache \
       /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
     rm -f /var/cache/apk/*
 WORKDIR /var/www
-RUN wget https://wordpress.org/latest.zip && \
-    unzip latest.zip && \
+RUN wget https://wordpress.org/wordpress-6.6.2.zip && \
+    unzip wordpress-6.6.2.zip && \
     cp -rf wordpress/* . && \
-    rm -rf wordpress latest.zip
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-    && chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+    rm -rf wordpress-6.6.2.zip
+RUN wget https://github.com/wp-cli/wp-cli/releases/download/v2.10.0/wp-cli-2.10.0.phar \
+    && chmod +x wp-cli-2.10.0.phar && mv wp-cli-2.10.0.phar /usr/local/bin/wp
 COPY ./requirements/wordpress/conf/wp-config-create.sh .
 RUN chmod +x /var/www/wp-config-create.sh && chmod -R 0777 wp-content/
 CMD ["/bin/sh", "-c", "/var/www/wp-config-create.sh && /usr/sbin/php-fpm83 -F"]
