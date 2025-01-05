@@ -22,7 +22,7 @@ down:
 	@printf "Stopping ${name}...\n"
 	@docker compose -f ./srcs/docker-compose.yml down
 
-clean: down
+clean:
 	@printf "Cleaning  ${name}...\n"
 	@docker compose -f ./srcs/docker-compose.yml down --volumes --rmi local
 	@docker container prune --force
@@ -31,7 +31,7 @@ clean: down
 
 fclean: down
 	@printf "Clean of all docker configs\n"
-	@docker system prune --all
+	@docker compose -f ./srcs/docker-compose.yml down --volumes --rmi all --remove-orphans
 	@sudo rm -rf ~/data
  
 .PHONY : all build down clean fclean info env certs
